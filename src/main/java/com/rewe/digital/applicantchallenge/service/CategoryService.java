@@ -1,11 +1,13 @@
 package com.rewe.digital.applicantchallenge.service;
 
 import com.rewe.digital.applicantchallenge.model.CategoryDTO;
+import com.rewe.digital.applicantchallenge.model.CategoryEntity;
 import com.rewe.digital.applicantchallenge.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -18,6 +20,21 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> getCategories() {
-        throw new RuntimeException("Not yet implemented"); // TODO
+        return getChildren(null, categoryRepository.findAll());
+    }
+
+    private List<CategoryDTO> getChildren(String parentId, List<CategoryEntity> categoryEntities) {
+        return categoryEntities.stream()
+                .filter(categoryEntity ->
+                        (categoryEntity.getParentId() == null && parentId == null)
+                                || categoryEntity.getParentId().equals(parentId)
+                )
+                .map(categoryEntity -> new CategoryDTO(
+                        categoryEntity.getId(),
+                        categoryEntity.getName(),
+                        categoryEntity.getSlug(),
+                        getChildren(categoryEntity.getId(), categoryEntities)
+                ))
+                .collect(Collectors.toList());
     }
 }
