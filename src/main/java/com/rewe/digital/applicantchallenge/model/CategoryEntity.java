@@ -1,11 +1,9 @@
 package com.rewe.digital.applicantchallenge.model;
 
-import org.springframework.lang.Nullable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "categories")
 public class CategoryEntity {
     @Id
     private String id;
