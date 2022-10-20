@@ -27,7 +27,7 @@ public class CategoryService {
         return categoryEntities.stream()
                 .filter(categoryEntity ->
                         (categoryEntity.getParentId() == null && parentId == null)
-                                || categoryEntity.getParentId().equals(parentId)
+                                || (parentId != null && parentId.equals(categoryEntity.getParentId()))
                 )
                 .map(categoryEntity -> new CategoryDTO(
                         categoryEntity.getId(),
