@@ -74,14 +74,14 @@ class ApplicantChallengeApplicationTests {
         assertEquals(categories.size(), 1);
 
         var category = categories.get(0);
-        assertEquals(category.getId(), "921");
-        assertEquals(category.getName(), "Getränke");
-        assertEquals(category.getSlug(), "getraenke");
+        assertEquals("921", category.getId());
+        assertEquals("Getränke", category.getName());
+        assertEquals("getraenke", category.getSlug());
 
         var firstGen = category.getChildren();
         assertEquals(
-                firstGen.stream().map(CategoryDTO::getId).collect(Collectors.toList()),
-                Arrays.asList("964", "985")
+                Arrays.asList("964", "985"),
+                firstGen.stream().map(CategoryDTO::getId).collect(Collectors.toList())
         );
 
         var secondGen = firstGen.stream().filter(it -> it.getId().equals("985"))
@@ -89,8 +89,8 @@ class ApplicantChallengeApplicationTests {
                 .get()
                 .getChildren();
         assertEquals(
-                secondGen.stream().map(CategoryDTO::getId).collect(Collectors.toList()),
-                Arrays.asList("986", "994", "997")
+                Arrays.asList("986", "994", "997"),
+                secondGen.stream().map(CategoryDTO::getId).collect(Collectors.toList())
         );
     }
 
